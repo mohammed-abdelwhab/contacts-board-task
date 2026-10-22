@@ -25,6 +25,9 @@ export function ContactCard({
         borderColor: selected ? "var(--color-surface-selected-border)" : undefined,
         backgroundColor: selected ? "var(--color-surface-selected)" : undefined,
       }}
+      data-testid={contact.id}
+      data-contact-id={contact.id}
+      aria-label={`Open ${contact.name}`}
     >
       <div className="flex items-start gap-2">
         <Avatar name={contact.name} />

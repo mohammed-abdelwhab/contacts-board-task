@@ -12,7 +12,7 @@ export function BoardColumn({
   const { bg, text } = STAGE_STYLE[stage];
 
   return (
-    <div className="flex flex-col shrink-0 w-[260px] min-h-[400px]">
+    <div data-column={stage} className="flex flex-col shrink-0 w-[260px] min-h-[400px]">
       <header className="flex items-center justify-between mb-2">
         <h3 className={`font-medium text-sm ${text}`}>{stage}</h3>
         <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${bg} ${text}`}>

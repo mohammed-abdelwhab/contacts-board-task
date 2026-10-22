@@ -9,7 +9,7 @@ export const CONTACTS: Contact[] = [
     role: "VP of Product",
     owner: "Dana Cole",
     labels: ["enterprise", "referral"],
-    stage: "Customer",
+    stage: "Qualified",
     notes:
       "Northwind renewed for a second term in March. Mara's team now uses the quarterly review cadence we agreed on; keep the renewal reminder 30 days out.",
   },
@@ -52,7 +52,7 @@ export const CONTACTS: Contact[] = [
     role: "Design Director",
     owner: "Mara Okonkwo",
     labels: ["enterprise", "design-system", "referral"],
-    stage: "Customer",
+    stage: "Qualified",
     notes: "Onboarding starts Monday. Send the brand-kit checklist.",
   },
   {
@@ -93,7 +93,7 @@ export const CONTACTS: Contact[] = [
     company: "Verdant",
     owner: "Priya Nandakumar",
     labels: ["design-system"],
-    stage: "Customer",
+    stage: "Prospect",
     notes: "Annual plan. Low-touch account; check in quarterly only.",
   },
   {

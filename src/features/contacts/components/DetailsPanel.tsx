@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { X } from "lucide-react";
 import { Chip } from "../../../components/ui/Chip";
 import { EmptyValue } from "../../../components/ui/EmptyValue";
@@ -21,16 +22,13 @@ function FieldValue({ children }: { children: React.ReactNode }) {
 }
 
 export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
-  const handleStageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSave?.(e.target.value as Stage, contact.notes ?? "");
-  };
+  const [draftStage, setDraftStage] = useState<Stage>(contact.stage);
+  const [draftNotes, setDraftNotes] = useState<string>(contact.notes ?? "");
 
-  const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onSave?.(contact.stage, e.target.value);
-  };
+  const isDirty = draftStage !== contact.stage || draftNotes !== (contact.notes ?? "");
 
   const handleSave = () => {
-    onSave?.(contact.stage, contact.notes ?? "");
+    onSave?.(draftStage, draftNotes);
   };
 
   return (
@@ -41,7 +39,9 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
     >
       <header className="flex items-center justify-between border-b border-surface-line px-4 py-3">
         <div>
-          <h2 className="font-medium text-ink-900">{contact.name}</h2>
+          <h2 id="panel-heading" tabIndex={-1} className="font-medium text-ink-900 outline-none">
+            {contact.name}
+          </h2>
           <p className="text-sm text-ink-500">{contact.company}</p>
         </div>
         <Button.Icon
@@ -107,8 +107,9 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
             <FieldLabel>Stage</FieldLabel>
             <FieldValue>
               <select
-                defaultValue={contact.stage}
-                onChange={handleStageChange}
+                aria-label="Stage"
+                value={draftStage}
+                onChange={(e) => setDraftStage(e.target.value as Stage)}
                 className="w-full rounded-md border border-surface-line bg-surface-card px-2 py-1 text-sm text-ink-700 focus-ring"
               >
                 {STAGES.map((stage) => {
@@ -127,8 +128,9 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
             <FieldLabel className="pt-2">Notes</FieldLabel>
             <FieldValue>
               <textarea
-                defaultValue={contact.notes ?? ""}
-                onChange={handleNotesChange}
+                aria-label="Notes"
+                value={draftNotes}
+                onChange={(e) => setDraftNotes(e.target.value)}
                 rows={4}
                 className="w-full rounded-md border border-surface-line bg-surface-card px-2 py-1.5 text-sm text-ink-700 placeholder:text-ink-500 focus-ring resize-none"
                 placeholder="No notes yet"
@@ -149,6 +151,7 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
         <Button
           variant="primary"
           size="sm"
+          disabled={!isDirty}
           onClick={handleSave}
         >
           Save

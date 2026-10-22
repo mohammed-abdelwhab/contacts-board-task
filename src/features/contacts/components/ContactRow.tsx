@@ -44,6 +44,9 @@ export function ContactRow({ contact, selected, onSelect }: ContactRowProps) {
             onClick={handleClick}
             className="focus-ring text-left w-full"
             aria-current={selected ? "true" : undefined}
+            aria-label={`Open ${contact.name}`}
+            data-testid={contact.id}
+            data-contact-id={contact.id}
           >
             <span className="font-medium text-ink-900">{contact.name}</span>
           </button>

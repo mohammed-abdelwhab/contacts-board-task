@@ -6,5 +6,6 @@
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["vite/client", "react-dom/client"]
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/test/**/*"]
 }
