@@ -9,9 +9,10 @@ import type { ViewMode, Contact } from "./types";
 function SectionTitle({
   children,
   id,
-}: { children: ReactNode; id?: string }) {
+  className,
+}: { children: ReactNode; id?: string; className?: string }) {
   return (
-    <h3 id={id} className="mb-3 text-sm font-medium text-ink-500 uppercase tracking-wider">
+    <h3 id={id} className={`mb-3 text-sm font-medium text-ink-500 uppercase tracking-wider ${className ?? ""}`}>
       {children}
     </h3>
   );
@@ -75,12 +76,12 @@ export function ContactsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface-page p-6 lg:p-8 font-sans antialiased">
-      <div className="mx-auto max-w-[1440px] space-y-8">
-        <header className="flex items-center justify-between">
+    <div className="min-h-screen bg-surface-page font-sans antialiased">
+      <div className="mx-auto max-w-[1280px] px-4 lg:px-6 py-6 lg:py-8 space-y-6">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-lg font-medium text-ink-900">Contacts</h1>
-            <p className="text-sm text-ink-500">{contacts.length} contacts</p>
+            <h1 className="text-lg lg:text-xl font-medium text-ink-900">Contacts</h1>
+            <p className="text-sm text-ink-500 mt-0.5">{contacts.length} contacts</p>
           </div>
           <Toolbar mode={view} onModeChange={setView} />
         </header>
@@ -93,8 +94,8 @@ export function ContactsPage() {
         />
 
         {selectedContact && (
-          <section aria-labelledby="details-title">
-            <SectionTitle id="details-title">Details</SectionTitle>
+          <section aria-labelledby="details-title" className="relative lg:absolute lg:top-20 lg:right-0 lg:w-[420px] lg:max-h-[calc(100vh-8rem)]">
+            <SectionTitle id="details-title" className="sr-only">Details</SectionTitle>
             <DetailsPanel
               key={selectedContact.id}
               contact={selectedContact}
