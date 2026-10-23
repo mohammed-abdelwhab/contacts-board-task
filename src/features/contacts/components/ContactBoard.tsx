@@ -12,9 +12,9 @@ export function ContactBoard({
       id="board-view"
       role="region"
       aria-label="Board view"
-      className="w-full overflow-x-auto pb-4"
+      className="w-full"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start min-w-[760px] lg:min-w-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 items-start">
         {STAGES.map((stage: Stage) => (
           <BoardColumn
             key={stage}
