@@ -195,6 +195,36 @@ npm test
 
 ---
 
+## Design Choices & Trade-Offs
+
+1. **Single Source of Truth (`useReducer` + Context)**:
+   - *Choice*: Maintained all contact records inside a unified reducer at the provider root. Table and Board purely filter and project from this array.
+   - *Trade-off*: Avoids state synchronization bugs between Table and Board views without needing heavy external state management libraries (Zustand, Redux).
+
+2. **Draft-in-Drawer Isolation**:
+   - *Choice*: `DetailsPanel` manages its own local draft state (`draftStage`, `draftNotes`).
+   - *Trade-off*: Prevents typing in long-form notes from re-rendering the parent page, table rows, and board cards on every keystroke.
+
+3. **Dirty Draft Dismissal**:
+   - *Choice*: Pressing `Escape` or clicking the backdrop overlay silently discards unsaved draft edits.
+   - *Trade-off*: Delivers a frictionless, rapid-scanning experience without modal alert fatigue. For a full production system, a subtle "Unsaved changes" indicator or confirmation prompt would be the natural extension.
+
+4. **3-Column Wrapping Kanban vs. Infinite Scroll**:
+   - *Choice*: Configured the board with a responsive grid (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5`) that wraps columns to the next row when needed.
+   - *Trade-off*: Ensures all 4 stages (including empty states) remain directly visible on typical displays without forcing users into clumsy horizontal scrolling.
+
+---
+
+## What Was Left Unfinished / Future Improvements
+
+In line with the 3–4 hour suggested scope, the focus was kept strictly on delivering a rock-solid, accessible core flow:
+- **Drag-and-Drop Reordering**: Adding accessible drag-and-drop between Kanban columns (e.g. via `@hello-pangea/dnd` or native Pointer events).
+- **Global Search & Multi-Filter**: Quick filtering by keyword, stage, owner, or taxonomy labels.
+- **Persistence Layer**: Syncing state with `localStorage` or a REST/GraphQL backend.
+- **Bulk Selection & Actions**: Multi-row selection in Table view for batch stage updates or exports.
+
+---
+
 ## License
 
 MIT
