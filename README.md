@@ -17,51 +17,6 @@ This project implements a fully interactive contact management UI adhering to mo
 
 ---
 
-## How to Run Locally
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server (runs on http://localhost:5173)
-npm run dev
-
-# Run production build
-npm run build
-
-# Preview production build locally
-npm run preview
-
-# Run automated test suite
-npm test
-```
-
-> **Requirements:** Node.js 20+ and npm 10+.
-
----
-
-## Deployment (Vercel)
-
-Deploying this repository to Vercel requires **zero manual setup or secrets** in GitHub.
-
-### Step-by-Step Deployment:
-1. **Push to GitHub**: Ensure your latest changes are pushed to your remote repository branch (e.g. `main`).
-2. **Import to Vercel**:
-   - Go to [vercel.com](https://vercel.com) and sign in.
-   - Click **Add New... > Project**.
-   - Select and import this repository (`mohammed-abdelwhab/contacts-board-task`).
-3. **Build & Output Settings**:
-   - Vercel automatically detects **Vite**.
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-   - **Install Command**: `npm install`
-4. **Deploy**:
-   - Click **Deploy**. Your site will build and be live in seconds with preview and production URLs.
-5. **SPA Routing Support**:
-   - The repository includes `vercel.json` pre-configured with client-side rewrites so direct navigation and page refreshes work seamlessly.
-
----
-
 ## What's Built
 
 | Component | Purpose |
@@ -217,7 +172,6 @@ npm test
 
 ## What Was Left Unfinished / Future Improvements
 
-In line with the 3–4 hour suggested scope, the focus was kept strictly on delivering a rock-solid, accessible core flow:
 - **Drag-and-Drop Reordering**: Adding accessible drag-and-drop between Kanban columns (e.g. via `@hello-pangea/dnd` or native Pointer events).
 - **Global Search & Multi-Filter**: Quick filtering by keyword, stage, owner, or taxonomy labels.
 - **Persistence Layer**: Syncing state with `localStorage` or a REST/GraphQL backend.
@@ -225,6 +179,3 @@ In line with the 3–4 hour suggested scope, the focus was kept strictly on deli
 
 ---
 
-## License
-
-MIT
