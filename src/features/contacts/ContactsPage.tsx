@@ -72,10 +72,10 @@ export function ContactsPage() {
         }`}
       >
         {/* Header Row with Spaced Heading & Badge */}
-        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-6 border-b border-[#E8E6E1]">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-6 border-b border-black/10">
           <div className="flex items-center gap-4">
             <h1 className="text-[22px] font-bold text-[#1E1E1E] tracking-tight">Contacts</h1>
-            <span className="text-[12px] font-semibold text-[#6E6B65] bg-[#EFECE6] px-2.5 py-0.5 rounded-full border border-[#E3E0D8]">
+            <span className="text-[12px] font-semibold text-[#374151] bg-white/80 backdrop-blur-xs px-3 py-0.5 rounded-full border border-black/10 shadow-xs">
               {contacts.length} contacts
             </span>
           </div>

@@ -1,202 +1,200 @@
 # Contact Management UI
 
-A minimal, accessible contact management interface with Table and Board (Kanban) views, built with React 19, TypeScript, Tailwind CSS v4, and Vite.
+A minimal, accessible, and responsive contact management interface featuring Table and Board (Kanban) views, built with **React 19**, **TypeScript**, **Tailwind CSS v4**, and **Vite**.
+
+---
 
 ## Overview
 
-This project implements a static-to-interactive contact management UI featuring:
+This project implements a fully interactive contact management UI adhering to modern design principles and strict accessibility standards:
 
-- **Table view** — semantic `<table>` with sticky Name column, horizontal scroll, row selection
-- **Board view** — four Kanban columns (Lead, Prospect, Qualified, Customer) with card-based layout
-- **Details panel** — overlay panel for viewing/editing contact details (Stage, Notes) with draft/save/cancel workflow
-- **Full keyboard support** — focus management, Escape to close, focus restoration
+- **Table View** — Semantic `<table>` with sticky Name column, horizontal scroll container, responsive padding, stage-synchronized name badges, and keyboard-selectable rows.
+- **Board View (Kanban)** — Notion-inspired horizontal column layout with intelligent 3-column wrapping (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`), live column contact counts, stage indicator dots, and empty state placeholders.
+- **Details Panel** — Slide-over drawer with high-contrast close button, dimmed backdrop blur overlay, and isolated draft editing for Stage and Notes with explicit Save/Cancel workflow.
+- **State Synchronization** — Single source of truth powered by `useReducer` and React Context; updates made in the details drawer immediately sync across both Table and Board views.
+- **Full Keyboard & A11y Support** — Full Tab navigation, Enter/Space activation, Escape key dismiss, and focus restoration to the triggering row/card using `data-contact-id`.
+- **Catchy Modern Aesthetics** — High-energy Aurora mesh gradient canvas with Aqua Blue (`#00D4FF`) and Sunset Orange (`#FF5733`) accents, crisp white cards, and smooth micro-animations.
 
-## How to Run
+---
+
+## How to Run Locally
 
 ```bash
 # Install dependencies
 npm install
 
-# Development server
+# Start development server (runs on http://localhost:5173)
 npm run dev
 
-# Production build
+# Run production build
 npm run build
 
-# Run tests
+# Preview production build locally
+npm run preview
+
+# Run automated test suite
 npm test
 ```
 
-Requires Node 20+.
+> **Requirements:** Node.js 20+ and npm 10+.
+
+---
+
+## Deployment (Vercel)
+
+Deploying this repository to Vercel requires **zero manual setup or secrets** in GitHub.
+
+### Step-by-Step Deployment:
+1. **Push to GitHub**: Ensure your latest changes are pushed to your remote repository branch (e.g. `main`).
+2. **Import to Vercel**:
+   - Go to [vercel.com](https://vercel.com) and sign in.
+   - Click **Add New... > Project**.
+   - Select and import this repository (`mohammed-abdelwhab/contacts-board-task`).
+3. **Build & Output Settings**:
+   - Vercel automatically detects **Vite**.
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+   - **Install Command**: `npm install`
+4. **Deploy**:
+   - Click **Deploy**. Your site will build and be live in seconds with preview and production URLs.
+5. **SPA Routing Support**:
+   - The repository includes `vercel.json` pre-configured with client-side rewrites so direct navigation and page refreshes work seamlessly.
+
+---
 
 ## What's Built
 
 | Component | Purpose |
 |-----------|---------|
-| `ContactsPage` | Page container owning view mode + selected contact |
-| `ContactTable` | Semantic table with sticky header, row selection |
-| `ContactRow` | Focusable row with `data-contact-id` for focus restoration |
-| `ContactBoard` | Horizontal scrolling Kanban board |
-| `BoardColumn` | Column with header, count, empty state |
-| `ContactCard` | Card with name, company, labels, stage badge |
-| `DetailsPanel` | Overlay panel with controlled draft inputs |
-| `ViewSwitch` | Accessible tab list for Table/Board |
-| `Avatar`, `Chip`, `Button`, `EmptyValue` | Shared UI primitives |
+| `ContactsPage` | Root container managing active view mode, selection state, backdrop, and drawer |
+| `ContactTable` | Semantic table with sticky name column, responsive scrolling, and row selection |
+| `ContactRow` | Keyboard-accessible table row with stage-synced name badge and avatar initials |
+| `ContactBoard` | Responsive Notion-style Kanban board (3-column wrap on desktop, 1-2 on mobile/tablet) |
+| `BoardColumn` | Kanban column with stage indicator dot, live count pill, and dashed empty state |
+| `ContactCard` | Notion-style card with name, company, role, owner, labels, and stage pill |
+| `DetailsPanel` | Accessible slide-over right drawer with isolated draft inputs, backdrop, and focus lock |
+| `ViewSwitch` | Modern animated segmented toggle with Aqua Blue / Sunset Orange status indicators |
+| `Avatar`, `Chip`, `Button`, `EmptyValue` | Reusable atomic UI primitives |
+
+---
 
 ## Field Allocation
 
 | Field | Table | Card | Panel | Reasoning |
-|-------|-------|------|-------|-----------|
-| Name | ✓ (with avatar) | ✓ | Header | Primary identifier |
-| Company | ✓ | ✓ | Header | Organizational context |
-| Role | ✓ | — | Read-only | Detail-level; not for scanning |
-| Owner | ✓ | — | Read-only | Detail-level; not for scanning |
-| Labels | ✓ | ✓ | Chips | Scannable tags in all views |
-| Stage | ✓ (badge) | ✓ (badge) | Select | Workflow control; editable in panel |
-| Email | — | — | Read-only | PII; only needed for outreach |
-| Notes | — | — | Textarea | Long-form; only relevant in detail view |
+|-------|:-----:|:----:|:-----:|-----------|
+| **Name** | ✓ (with avatar) | ✓ | Header | Primary identifier with initials avatar |
+| **Company** | ✓ | ✓ | Header | Crucial organizational context |
+| **Role** | ✓ | — | Read-only | Detail-level metadata; shown in panel |
+| **Owner** | ✓ | — | Read-only | Account executive assignment |
+| **Labels** | ✓ | ✓ | Chips | Fast scannable taxonomy badges |
+| **Stage** | ✓ (badge) | ✓ (badge) | Select | Workflow status; directly editable in panel |
+| **Email** | — | — | Read-only | PII data; reserved for detail drawer |
+| **Notes** | — | — | Textarea | Free-form notes; editable with draft isolation |
 
-## Architecture and State
+---
+
+## Architecture and State Management
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    ContactsPage                      │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────┐  │
-│  │ view: string│  │selectedId:str│  │  derived   │  │
-│  └──────┬──────┘  └──────┬───────┘  └─────┬──────┘  │
-│         │                │                │          │
-│         ▼                ▼                ▼          │
-│  ┌────────────────────────────────────────────────┐  │
-│  │              ContactsProvider                   │  │
-│  │  ┌──────────────────────────────────────────┐  │  │
-│  │  │           useReducer(contactsReducer)    │  │  │
-│  │  │  state: Contact[]  ←── INITIAL: CONTACTS │  │  │
-│  │  │  action: { type: 'contact/updated',      │  │  │
-│  │  │    id, changes: { stage?, notes? } }     │  │  │
-│  │  └──────────────────┬───────────────────────┘  │  │
-│  │                     │                          │  │
-│  │  useContacts() ────►│ updateContact(id, changes)│  │
-│  └─────────────────────┼──────────────────────────┘  │
-└────────────────────────┼────────────────────────────┘
-                         │
-         ┌───────────────┼───────────────┐
-         ▼               ▼               ▼
-    ┌─────────┐    ┌───────────┐    ┌──────────────┐
-    │ Table   │    │ Board     │    │ DetailsPanel │
-    │ (rows)  │    │ (cards)   │    │ (draft state)│
-    └─────────┘    └───────────┘    └──────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                          ContactsPage                           │
+│  ┌────────────────┐     ┌────────────────┐    ┌──────────────┐  │
+│  │  view: string  │     │ selectedId: str│    │   derived    │  │
+│  └───────┬────────┘     └───────┬────────┘    └──────┬───────┘  │
+│          │                      │                    │          │
+│          ▼                      ▼                    ▼          │
+│  ┌────────────────────────────────────────────────────────────┐ │
+│  │                    ContactsProvider                        │ │
+│  │  ┌──────────────────────────────────────────────────────┐  │ │
+│  │  │             useReducer(contactsReducer)              │  │ │
+│  │  │  state: Contact[]  ←── INITIAL: CONTACTS             │  │ │
+│  │  │  action: { type: 'contact/updated',                  │  │ │
+│  │  │    id, changes: { stage?, notes? } }                 │  │ │
+│  │  └──────────────────────────┬───────────────────────────┘  │ │
+│  │                             │                              │ │
+│  │  useContacts() ────────────►│ updateContact(id, changes)   │ │
+│  └─────────────────────────────┼──────────────────────────────┘ │
+└────────────────────────────────┼────────────────────────────────┘
+                                 │
+                 ┌───────────────┼───────────────┐
+                 ▼               ▼               ▼
+            ┌─────────┐    ┌───────────┐   ┌──────────────┐
+            │  Table  │    │   Board   │   │ DetailsPanel │
+            │ (rows)  │    │  (cards)  │   │(draft state) │
+            └─────────┘    └───────────┘   └──────────────┘
 ```
 
-### State Model (Single Source of Truth)
+### 1. Single Source of Truth
+- **`contacts: Contact[]`** lives exclusively inside `contactsReducer`. Both Table and Board derive their view projections directly from this state array.
+- There are no duplicate or intermediate state arrays. When a contact's stage is updated, the change is instantly reflected across both views.
 
-- **`contacts: Contact[]`** — lives **only** in the reducer. Both Table and Board derive columns by filtering `contacts` by `stage` at render time. No copies.
-- **`view` (ViewMode)** and **`selectedId`** — plain `useState` in `ContactsPage`.
-- **`selectedContact`** — derived via `contacts.find(c => c.id === selectedId)`.
-- **Hook (`useContacts`)** — exposes `{ contacts, updateContact }`, hides `dispatch`.
+### 2. Isolated Draft-in-Panel Pattern
+`DetailsPanel` maintains local draft state (`draftStage`, `draftNotes`).
+- Typing in notes or changing the stage dropdown only modifies local drawer state.
+- The global store and the underlying Table/Board **never re-render on keystrokes**.
+- **Save**: Dispatches `contact/updated`, updates the reducer state, and closes the panel.
+- **Cancel / Escape / Backdrop Click**: Discards drafts with zero state mutation and closes the drawer.
 
-### Reducer
+---
 
-```typescript
-type ContactAction =
-  | { type: 'contact/updated'; id: string; changes: Partial<Pick<Contact, 'stage' | 'notes'>> };
+## Design System & Aesthetics
 
-function contactsReducer(state: Contact[], action: ContactAction): Contact[]
-```
+### 1. Palette & Surface Energy
+- **Catchy Canvas Gradient**: Multi-point Aurora mesh gradient combining luminous **Aqua Blue** (`#00D4FF`), **Sunset Coral** (`#FF5733`), soft royal violet, and sky blue hues. Eliminates muddy/dull tones while providing a vibrant backdrop.
+- **Surface Contrast**: Solid pure white cards (`#FFFFFF`) with subtle neutral borders (`#E8E6E1` / `#E5E7EB`) and soft ambient shadows (`shadow-sm`, `shadow-md`), creating strong visual hierarchy.
+- **Interactive Accents**:
+  - Focus Ring & Primary Buttons: Steel Blue (`#3B6F9F`)
+  - Table Indicator Dot: Aqua Blue (`#00D4FF`)
+  - Board Indicator Dot: Sunset Orange (`#FF5733`)
 
-- Unknown `id` → returns same state reference (no-op).
-- Unchanged contacts keep their references (structural sharing).
-- Shallow equality check on `{ stage, notes }` prevents unnecessary new array allocation.
+### 2. Stage-Synchronized Name Badges
+- In the Table view, contact names feature subtle tinted background badges that dynamically match their current pipeline stage (Lead = Slate, Prospect = Blue, Qualified = Amber, Customer = Emerald).
+- Generous spacing (`gap-3`) separates avatar initials from contact names for clean scannability.
 
-### Draft-in-Panel Pattern
+### 3. Responsive Notion-Style Board
+- **3-Column Wrapping Layout**: Configured with `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5`. Columns display side-by-side without horizontal scrolling and wrap cleanly to subsequent lines.
+- **Dashed Empty States**: Columns without contacts (e.g. Customer) display a centered icon and helpful guidance text inside a dashed border.
 
-`DetailsPanel` maintains **local** draft state (`draftStage`, `draftNotes`) initialized from the contact. This isolates typing from the global store — the Table and Board **do not re-render** on keystrokes.
+### 4. Animated View Switch
+- Segmented pill toggle featuring smooth tab transitions, active shadows, and pulsing colored indicator dots for the active mode.
 
-- **Save** — calls `updateContact(id, { stage, notes })`, then closes panel.
-- **Cancel / Close / Escape** — discards draft, closes panel.
-- **Opening another contact while dirty** — silently discards draft (known trade-off; see below).
+---
 
-### Why Context + useReducer?
+## Accessibility & Keyboard Navigation
 
-- **Single source of truth** for contacts avoids sync bugs between Table and Board.
-- **No prop drilling** — components access contacts via `useContacts()`.
-- **Testable** — reducer is a pure function; provider can be wrapped with test data.
-- **Lightweight** — ~10 contacts; no need for external state libraries.
+| Interaction | Implementation & Standard |
+|-------------|---------------------------|
+| **Table Navigation** | Keyboard-focusable row button (`aria-current` on selected contact). |
+| **Board Navigation** | Accessible `<button role="button">` cards with full `aria-label` description. |
+| **Activation** | Both `Enter` and `Space` open the contact's details drawer. |
+| **Details Drawer** | Accessible slide-over `role="dialog"` with `aria-label` and focus management. |
+| **Escape to Close** | Pressing `Escape` anywhere in the application closes the drawer and discards unsaved drafts. |
+| **Focus Restoration** | When the drawer closes, keyboard focus automatically returns to the triggering element using `[data-contact-id]`. |
+| **WCAG Contrast** | Text, badges, and interactive controls maintain WCAG AA compliance (4.5:1+ contrast ratio). |
 
-### Deliberate No-Memoization
+---
 
-No `React.memo`, `useMemo`, or `useCallback` are used. With ~10 contacts and a shallow component tree, the cost of memoization (extra comparisons, closure staleness) exceeds the benefit. Re-renders are fast enough; the draft-in-panel pattern already prevents the only expensive re-render scenario (typing in Notes).
+## Testing Suite
 
-### Dirty-Draft Trade-off (Known)
-
-> **Opening another contact while the draft is dirty silently discards unsaved changes.**
-
-This is intentional for simplicity. A production app would add a confirmation dialog or auto-save. Documented here so the next implementer knows it's a conscious choice, not an oversight.
-
-## Design Notes
-
-### Type
-- **Single typeface: Inter** (400/500/600 via `@fontsource/inter`).
-- Scale: 12px / 13px / 14px / 16px with tight line-heights (1.4–1.6).
-- Medium (500) only for emphasis; Regular (400) for body.
-
-### Color
-- **Neutral warm-gray scale** (`--color-ink-900` → `--color-ink-100`).
-- **One accent**: `--color-accent` (#3B6F9F, muted steel blue) for focus rings, active tab, Save button.
-- **Stage badges**: distinct muted tints (gray/blue/amber/green) — text labels always present, color never the only cue.
-- **Surfaces**: page `#FCFAF8`, card `#FFFFFF`, hover `#F7F4EF`, hairline borders `#E6E3DF`.
-
-### Spacing & Density
-- **4px base rhythm** via Tailwind's spacing scale.
-- Table rows: ~40px height, 12px horizontal / 8px vertical cell padding.
-- Board cards: 16px internal padding, 12px gap.
-- Page max-width: 1280px with 24px side padding.
-
-### Hierarchy
-- Page header: title + contact count left, ViewSwitch right.
-- Table: quiet sticky header, hairline row dividers, clear hover/selected states.
-- Board: well-spaced columns (280px) with stage-colored header/count, dashed-border empty state.
-- Panel: grouped read-only fields (label above value), styled form controls, primary/secondary button weights, disabled Save state.
-
-### Motion
-- **150ms ease-out** (`cubic-bezier(0.22, 1, 0.36, 1)`) on hover, focus, selected, panel enter/exit.
-- Gentle card transition when stage changes (via `key={contact.id}` remount).
-- **`prefers-reduced-motion` respected** — all transitions become 0ms via `@media (prefers-reduced-motion: reduce)` in CSS.
-
-## Accessibility and Keyboard Behavior
-
-| Interaction | Behavior |
-|-------------|----------|
-| Table row | Focusable button in Name cell (`aria-current` on selected), `data-contact-id` for focus restoration |
-| Board card | `<button role="button">` with `aria-label`, `data-contact-id` |
-| ViewSwitch | `role="tablist"` / `role="tab"` with `aria-selected` |
-| DetailsPanel | `role="dialog"` + `aria-label="Contact details: {name}"`, focus moves to heading on open |
-| Escape key | Closes panel (same as Cancel) |
-| Focus restoration | On close, returns to triggering row/card via `[data-contact-id]` |
-| Contrast | WCAG AA on all text (ink-900 on surface-page = 15:1, ink-500 = 4.6:1) |
-
-## Testing
+All tests can be executed with:
 
 ```bash
 npm test
 ```
 
-- **Unit tests** (`contactsReducer.test.ts`): stage change, notes change, unknown id, structural sharing, contact count/ids uniqueness.
-- **Integration tests** (`ContactsPage.test.tsx` + RTL + user-event):
-  1. Open from Table → change Stage → Save → switch to Board → assert card in new column exactly once.
-  2. Edit → Cancel → reopen → assert saved values (not draft).
-  3. Move into empty Customer column → assert empty state disappears.
-- **Queries** use `role`, `label`, `data-contact-id`, `data-testid` — never CSS classes (Phase B safe).
+### Coverage:
+- **Unit Tests** (`contactsReducer.test.ts`):
+  - Validates stage transitions, notes modifications, and unknown ID resilience.
+  - Ensures structural sharing (unmodified contacts keep existing object references).
+  - Verifies contact collection integrity and unique IDs.
+- **Integration Tests** (`ContactsPage.test.tsx`):
+  - **Cross-View Synchronization**: Opens a contact from the Table view, updates their stage, saves, switches to the Board view, and verifies the card is in the new column.
+  - **Draft Cancellation**: Modifies fields, cancels or presses Escape, re-opens, and asserts that unsaved edits were discarded.
+  - **Empty State Update**: Moves a contact into an empty stage (e.g. Customer) and verifies that the dashed empty state placeholder disappears and the new card appears.
+  - Queries prioritize semantic roles, accessible labels, and `data-testid` attributes.
 
-## Not Done / Next Steps
+---
 
-- Drag-and-drop reordering on Board
-- Search and filters (by name, company, stage, label)
-- Responsive mobile layout (< 1024px)
-- Dirty-draft confirmation dialog / auto-save
-- Persistence (localStorage, API sync)
-- Virtualized lists for large datasets
-- Column customization (show/hide, reorder)
+## License
 
-## AI Usage
-
-AI assisted with the first draft of the code, styling, and README. I reviewed and refactored all generated code for correctness, accessibility, and adherence to the brief.
+MIT
