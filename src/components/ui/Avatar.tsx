@@ -1,6 +1,6 @@
 import type { AvatarProps } from "../../features/contacts/types";
 
-export function Avatar({ name }: AvatarProps) {
+export function Avatar({ name, selected, size = "sm", className }: AvatarProps) {
   const initials = name
     .trim()
     .split(/\s+/)
@@ -8,10 +8,19 @@ export function Avatar({ name }: AvatarProps) {
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
 
+  const sizeClasses =
+    size === "lg"
+      ? "w-10 h-10 text-[14px]"
+      : "w-6 h-6 text-[11px]";
+
+  const colorClasses = selected || size === "lg"
+    ? "bg-[#3B6F9F] text-white"
+    : "bg-[#EFECE6] text-[#5E5B55]";
+
   return (
     <span
       aria-hidden="true"
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink-300/25 text-xs font-medium text-ink-700"
+      className={`rounded-full font-medium flex items-center justify-center shrink-0 transition-colors ${sizeClasses} ${colorClasses} ${className ?? ""}`}
     >
       {initials || "?"}
     </span>

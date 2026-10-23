@@ -18,6 +18,9 @@ export interface Contact {
 
 export interface AvatarProps {
   name: string;
+  selected?: boolean | undefined;
+  size?: "sm" | "md" | "lg" | undefined;
+  className?: string | undefined;
 }
 
 export interface EmptyValueProps {
@@ -41,6 +44,7 @@ export interface IconButtonProps
 
 export interface ChipProps {
   label: string;
+  selected?: boolean | undefined;
 }
 
 // View switch ----------------------------------------------------------------
