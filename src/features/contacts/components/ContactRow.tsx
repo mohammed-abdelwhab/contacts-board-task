@@ -5,74 +5,97 @@ import { STAGE_STYLE } from "../constants";
 import type { ContactRowProps, Stage } from "../types";
 
 function StageBadge({ stage }: { stage: Stage }) {
-  const { bg, text } = STAGE_STYLE[stage];
+  const { bg, text, border } = STAGE_STYLE[stage];
   return (
-    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${bg} ${text}`}>
+    <span
+      className={`inline-flex items-center text-[12px] font-medium rounded px-2 py-0.5 border ${bg} ${text} ${border}`}
+    >
       {stage}
     </span>
   );
 }
 
-function LabelsCell({ labels }: { labels: string[] }) {
+function LabelsCell({ labels, selected }: { labels: string[]; selected?: boolean | undefined }) {
   if (labels.length === 0) return <EmptyValue />;
   return (
-    <span className="flex flex-wrap gap-1">
+    <div className="flex items-center gap-1.5 flex-wrap">
       {labels.map((label) => (
-        <Chip key={label} label={label} />
+        <Chip key={label} label={label} selected={selected} />
       ))}
-    </span>
+    </div>
   );
 }
 
 export function ContactRow({ contact, selected, onSelect }: ContactRowProps) {
   const handleClick = () => onSelect?.(contact);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTableRowElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleClick();
+    }
+  };
+
   return (
     <tr
-      className={`transition-base ${
+      onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      className={`transition-colors duration-150 cursor-pointer h-[40px] ${
         selected
-          ? "bg-surface-selected"
-          : "hover:bg-surface-hover"
+          ? "bg-[#EEF4F9] border-l-2 border-l-[#3B6F9F]"
+          : "hover:bg-[#FAF9F6]"
       }`}
-      style={{ backgroundColor: selected ? "var(--color-surface-selected)" : undefined }}
     >
-      <th scope="row" className="relative lg:sticky lg:left-0 bg-inherit z-10">
-        <div className="flex items-center gap-3 px-3 py-2.5 min-w-[220px]">
-          <Avatar name={contact.name} />
+      <td className="py-2 px-4">
+        <div className="flex items-center gap-2.5">
+          <Avatar name={contact.name} selected={selected} />
           <button
             type="button"
-            onClick={handleClick}
-            className="focus-ring text-left w-full"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick();
+            }}
+            className="focus-ring text-left outline-none cursor-pointer"
             aria-current={selected ? "true" : undefined}
             aria-label={`Open ${contact.name}`}
             data-testid={contact.id}
             data-contact-id={contact.id}
           >
-            <span className="font-medium text-ink-900">{contact.name}</span>
+            <span
+              className={`font-medium ${
+                selected ? "text-[#2C577D]" : "text-[#1E1E1E]"
+              }`}
+            >
+              {contact.name}
+            </span>
           </button>
         </div>
-      </th>
-      <td className="px-3 py-2.5 text-sm text-ink-700 whitespace-nowrap border-l border-surface-line/50">
+      </td>
+      <td
+        className={`py-2 px-4 ${
+          selected ? "text-[#1E1E1E] font-medium" : "text-[#4A4844]"
+        }`}
+      >
         {contact.company}
       </td>
-      <td className="px-3 py-2.5 text-sm whitespace-nowrap border-l border-surface-line/50">
+      <td className="py-2 px-4 text-[#6E6B65]">
         {contact.role ? (
-          <span className="text-ink-700">{contact.role}</span>
+          <span>{contact.role}</span>
         ) : (
           <EmptyValue />
         )}
       </td>
-      <td className="px-3 py-2.5 text-sm whitespace-nowrap border-l border-surface-line/50">
+      <td className="py-2 px-4 text-[#4A4844]">
         {contact.owner ? (
-          <span className="text-ink-700">{contact.owner}</span>
+          <span>{contact.owner}</span>
         ) : (
           <EmptyValue />
         )}
       </td>
-      <td className="px-3 py-2.5 whitespace-nowrap border-l border-surface-line/50">
-        <LabelsCell labels={contact.labels} />
+      <td className="py-2 px-4">
+        <LabelsCell labels={contact.labels} selected={selected} />
       </td>
-      <td className="px-3 py-2.5 whitespace-nowrap border-l border-surface-line/50">
+      <td className="py-2 px-4">
         <StageBadge stage={contact.stage} />
       </td>
     </tr>

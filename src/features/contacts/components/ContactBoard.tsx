@@ -2,9 +2,6 @@ import { BoardColumn } from "./BoardColumn";
 import { STAGES } from "../constants";
 import type { ContactBoardProps, Stage } from "../types";
 
-const COLUMN_WIDTH = 280;
-const COLUMN_GAP = 12;
-
 export function ContactBoard({
   contacts,
   selectedId,
@@ -15,12 +12,9 @@ export function ContactBoard({
       id="board-view"
       role="region"
       aria-label="Board view"
-      className="overflow-x-auto"
+      className="w-full overflow-x-auto pb-4"
     >
-      <div
-        className="flex gap-3 min-w-max"
-        style={{ minWidth: `${STAGES.length * COLUMN_WIDTH + (STAGES.length - 1) * COLUMN_GAP}px` }}
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start min-w-[760px] lg:min-w-0">
         {STAGES.map((stage: Stage) => (
           <BoardColumn
             key={stage}
