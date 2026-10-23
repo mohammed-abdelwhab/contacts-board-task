@@ -7,16 +7,18 @@
 
 @theme {
   /* Single accent color: focus rings, active tab, Save button. */
-  --color-accent: #3b6f9f;
+  /* Darkened slightly for WCAG AA contrast on white text (4.5:1 minimum) */
+  --color-accent: #2d5a8a;
 
   /* Stage badges: distinct muted hues, Notion-tag style. Text label always shows. */
-  --color-stage-lead: #6b6760;
+  /* Fixed for WCAG AA contrast (4.5:1 minimum) */
+  --color-stage-lead: #4a4742;
   --color-stage-lead-bg: #eceae5;
-  --color-stage-prospect: #3b6f9f;
+  --color-stage-prospect: #2d5a8a;
   --color-stage-prospect-bg: #e4ecf4;
-  --color-stage-qualified: #b47f1f;
+  --color-stage-qualified: #8a6000;
   --color-stage-qualified-bg: #f3e9d6;
-  --color-stage-customer: #3f7a56;
+  --color-stage-customer: #2d6a42;
   --color-stage-customer-bg: #e2ece5;
 
   /* Selection tint: a muted version of the single accent. */
@@ -91,4 +93,9 @@
       transition-duration: 0ms !important;
     }
   }
+}
+
+/* Ensure proper spacing at page root */
+#root {
+  @apply min-h-screen bg-surface-page;
 }
