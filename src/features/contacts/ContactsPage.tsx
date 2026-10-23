@@ -64,7 +64,7 @@ export function ContactsPage() {
   usePanelFocus(Boolean(selectedContact), handleClosePanel, selectedId);
 
   return (
-    <div className="min-h-screen bg-[#FBFBFA] text-[#1E1E1E] antialiased flex flex-col justify-between relative selection:bg-[#E8F0F8] selection:text-[#1D5685]">
+    <div className="min-h-screen bg-transparent text-[#1E1E1E] antialiased flex flex-col justify-between relative selection:bg-[#E8F0F8] selection:text-[#1D5685]">
       {/* Main Content wrapper */}
       <main
         className={`w-full max-w-[1240px] mx-auto px-4 sm:px-8 pt-8 pb-12 flex-1 transition-opacity duration-200 ${

@@ -37,7 +37,8 @@
   }
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #FBFBFA;
+    background: linear-gradient(135deg, #FBFBFA 0%, #F0F5FA 50%, #EBF9FC 100%);
+    background-attachment: fixed;
     color: #1E1E1E;
     margin: 0;
     padding: 0;
@@ -90,8 +91,9 @@
   animation: viewFadeSlide 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Ensure proper spacing at page root */
+/* Ensure proper spacing and fixed background at page root */
 #root {
   min-height: 100vh;
-  background-color: #FBFBFA;
+  background: linear-gradient(135deg, #FBFBFA 0%, #F0F5FA 50%, #EBF9FC 100%);
+  background-attachment: fixed;
 }
