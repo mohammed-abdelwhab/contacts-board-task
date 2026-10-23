@@ -47,10 +47,10 @@ export function ContactRow({ contact, selected, onSelect }: ContactRowProps) {
     <tr
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      className={`transition-colors duration-150 cursor-pointer h-12 border-b border-[#F0EFEA] ${
+      className={`transition-colors duration-150 cursor-pointer h-12 border-b border-white/[0.06] ${
         selected
-          ? "bg-[#EEF4F9] border-l-4 border-l-[#3B6F9F]"
-          : "hover:bg-[#FAF9F6]"
+          ? "bg-blue-950/40 border-l-4 border-l-[#0099FF]"
+          : "hover:bg-white/[0.03]"
       }`}
     >
       {/* Name Column with Stage-Synced Badge & Generous Spacing */}
@@ -81,22 +81,22 @@ export function ContactRow({ contact, selected, onSelect }: ContactRowProps) {
       {/* Company */}
       <td
         className={`py-2.5 px-4 text-[13px] ${
-          selected ? "text-[#1E1E1E] font-medium" : "text-[#4A4844]"
+          selected ? "text-white font-medium" : "text-slate-300"
         }`}
       >
         {contact.company}
       </td>
 
       {/* Role */}
-      <td className="py-2.5 px-4 text-[13px] text-[#6E6B65]">
+      <td className="py-2.5 px-4 text-[13px] text-slate-400">
         {contact.role ? <span>{contact.role}</span> : <EmptyValue />}
       </td>
 
       {/* Owner */}
-      <td className="py-2.5 px-4 text-[13px] text-[#4A4844]">
+      <td className="py-2.5 px-4 text-[13px] text-slate-300">
         {contact.owner ? (
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#8A8782]/70" />
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-500" />
             {contact.owner}
           </span>
         ) : (

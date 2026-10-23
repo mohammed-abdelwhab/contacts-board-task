@@ -64,18 +64,18 @@ export function ContactsPage() {
   usePanelFocus(Boolean(selectedContact), handleClosePanel, selectedId);
 
   return (
-    <div className="min-h-screen bg-transparent text-[#1E1E1E] antialiased flex flex-col justify-between relative selection:bg-[#E8F0F8] selection:text-[#1D5685]">
+    <div className="min-h-screen bg-transparent text-slate-100 antialiased flex flex-col justify-between relative selection:bg-blue-600/30 selection:text-cyan-200">
       {/* Main Content wrapper */}
       <main
         className={`w-full max-w-[1240px] mx-auto px-4 sm:px-8 pt-8 pb-12 flex-1 transition-opacity duration-200 ${
-          selectedContact ? "opacity-35" : ""
+          selectedContact ? "opacity-30" : ""
         }`}
       >
         {/* Header Row with Spaced Heading & Badge */}
-        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-6 border-b border-black/10">
+        <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 mb-6 border-b border-white/10">
           <div className="flex items-center gap-4">
-            <h1 className="text-[22px] font-bold text-[#1E1E1E] tracking-tight">Contacts</h1>
-            <span className="text-[12px] font-semibold text-[#374151] bg-white/80 backdrop-blur-xs px-3 py-0.5 rounded-full border border-black/10 shadow-xs">
+            <h1 className="text-[22px] font-bold text-white tracking-tight">Contacts</h1>
+            <span className="text-[12px] font-medium text-slate-300 bg-white/10 backdrop-blur-md px-3 py-0.5 rounded-full border border-white/10 shadow-xs">
               {contacts.length} contacts
             </span>
           </div>
@@ -96,7 +96,7 @@ export function ContactsPage() {
       {/* Dimmed Backdrop Overlay when Details Panel is Open */}
       {selectedContact && (
         <div
-          className="fixed inset-0 bg-black/35 backdrop-blur-[2px] z-40 transition-opacity duration-200 cursor-pointer"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-200 cursor-pointer"
           onClick={handleClosePanel}
           aria-hidden="true"
         />

@@ -13,7 +13,7 @@ This project implements a fully interactive contact management UI adhering to mo
 - **Details Panel** — Slide-over drawer with high-contrast close button, dimmed backdrop blur overlay, and isolated draft editing for Stage and Notes with explicit Save/Cancel workflow.
 - **State Synchronization** — Single source of truth powered by `useReducer` and React Context; updates made in the details drawer immediately sync across both Table and Board views.
 - **Full Keyboard & A11y Support** — Full Tab navigation, Enter/Space activation, Escape key dismiss, and focus restoration to the triggering row/card using `data-contact-id`.
-- **Catchy Modern Aesthetics** — High-energy Aurora mesh gradient canvas with Aqua Blue (`#00D4FF`) and Sunset Orange (`#FF5733`) accents, crisp white cards, and smooth micro-animations.
+- **Catchy Modern Aesthetics** — Deep cosmic midnight canvas (`#030712`) with ambient celestial cyan/blue glows, sleek frosted glass surfaces, and smooth micro-animations.
 
 ---
 
@@ -140,15 +140,15 @@ Deploying this repository to Vercel requires **zero manual setup or secrets** in
 ## Design System & Aesthetics
 
 ### 1. Palette & Surface Energy
-- **Catchy Canvas Gradient**: Multi-point Aurora mesh gradient combining luminous **Aqua Blue** (`#00D4FF`), **Sunset Coral** (`#FF5733`), soft royal violet, and sky blue hues. Eliminates muddy/dull tones while providing a vibrant backdrop.
-- **Surface Contrast**: Solid pure white cards (`#FFFFFF`) with subtle neutral borders (`#E8E6E1` / `#E5E7EB`) and soft ambient shadows (`shadow-sm`, `shadow-md`), creating strong visual hierarchy.
+- **Cosmic Midnight Canvas**: Deep space background (`#030712`) enriched with ambient celestial blue and electric cyan radial glows, creating an ultra-premium, modern dark SaaS aesthetic.
+- **Surface Elevation & Contrast**: Frosted dark glass surfaces (`#0B1222` / `#0D1527`) paired with subtle luminous hairline borders (`rgba(255, 255, 255, 0.08)` / `border-white/10`) and multi-layer depth shadows.
 - **Interactive Accents**:
-  - Focus Ring & Primary Buttons: Steel Blue (`#3B6F9F`)
-  - Table Indicator Dot: Aqua Blue (`#00D4FF`)
-  - Board Indicator Dot: Sunset Orange (`#FF5733`)
+  - Focus Ring: High-visibility electric blue (`#0099FF`)
+  - Primary CTAs & Active View Tab: Glowing electric blue gradient (`from-blue-600 to-cyan-500`) with soft ambient drop glow
+  - Status Indicators: Ambient pulsing cyan dots and translucent tinted stage pills
 
 ### 2. Stage-Synchronized Name Badges
-- In the Table view, contact names feature subtle tinted background badges that dynamically match their current pipeline stage (Lead = Slate, Prospect = Blue, Qualified = Amber, Customer = Emerald).
+- In the Table view, contact names feature subtle translucent glass badges that dynamically match their current pipeline stage (Lead = Slate, Prospect = Blue/Cyan, Qualified = Amber, Customer = Emerald).
 - Generous spacing (`gap-3`) separates avatar initials from contact names for clean scannability.
 
 ### 3. Responsive Notion-Style Board
@@ -156,7 +156,7 @@ Deploying this repository to Vercel requires **zero manual setup or secrets** in
 - **Dashed Empty States**: Columns without contacts (e.g. Customer) display a centered icon and helpful guidance text inside a dashed border.
 
 ### 4. Animated View Switch
-- Segmented pill toggle featuring smooth tab transitions, active shadows, and pulsing colored indicator dots for the active mode.
+- Dark glass segmented pill toggle featuring smooth tab transitions, active blue/cyan gradient elevation, and pulsing status indicators for the active mode.
 
 ---
 

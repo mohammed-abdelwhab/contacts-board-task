@@ -19,21 +19,21 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
     <aside
       role="dialog"
       aria-label={`Contact details: ${contact.name}`}
-      className="fixed top-0 right-0 bottom-0 w-full sm:w-[440px] bg-white border-l border-[#E2DFD8] panel-shadow z-50 flex flex-col justify-between"
+      className="fixed top-0 right-0 bottom-0 w-full sm:w-[440px] bg-[#0A1020] border-l border-white/10 panel-shadow z-50 flex flex-col justify-between text-white"
     >
       {/* Panel Header */}
-      <div className="p-6 border-b border-[#E8E6E1] flex items-start justify-between bg-white">
+      <div className="p-6 border-b border-white/10 flex items-start justify-between bg-[#080D1A]">
         <div className="flex items-center gap-3.5">
           <Avatar name={contact.name} size="lg" />
           <div>
             <h2
               id="panel-heading"
               tabIndex={-1}
-              className="text-[17px] font-bold text-[#1E1E1E] leading-tight outline-none"
+              className="text-[17px] font-bold text-white leading-tight outline-none"
             >
               {contact.name}
             </h2>
-            <p className="text-[13px] text-[#6E6B65] mt-0.5">{contact.company}</p>
+            <p className="text-[13px] text-slate-400 mt-0.5">{contact.company}</p>
           </div>
         </div>
 
@@ -42,7 +42,7 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
           type="button"
           aria-label="Close details"
           onClick={onCancel}
-          className="p-2 text-[#4A4844] hover:text-[#1E1E1E] bg-[#F4F3EF] hover:bg-[#E8E6E1] rounded-full transition-all duration-150 cursor-pointer focus-ring shadow-2xs"
+          className="p-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all duration-150 cursor-pointer focus-ring shadow-xs"
         >
           <svg
             className="w-5 h-5"
@@ -58,46 +58,46 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
       </div>
 
       {/* Panel Body */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-5 custom-scrollbar bg-white">
+      <div className="flex-1 overflow-y-auto p-6 space-y-5 custom-scrollbar bg-[#0A1020]">
         {/* Field: Email */}
         <div>
-          <label className="block text-[11px] font-semibold uppercase tracking-wider text-[#8A8782] mb-1.5">
+          <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
             Email
           </label>
-          <div className="text-[13px] text-[#2D2C2A] bg-[#FAF9F6] border border-[#E8E6E1] px-3.5 py-2.5 rounded-lg font-medium select-all">
+          <div className="text-[13px] text-slate-200 bg-white/[0.04] border border-white/10 px-3.5 py-2.5 rounded-xl font-medium select-all">
             {contact.email}
           </div>
         </div>
 
         {/* Field: Company */}
         <div>
-          <label className="block text-[11px] font-semibold uppercase tracking-wider text-[#8A8782] mb-1.5">
+          <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
             Company
           </label>
-          <div className="text-[13px] text-[#2D2C2A] bg-[#FAF9F6] border border-[#E8E6E1] px-3.5 py-2.5 rounded-lg font-medium">
+          <div className="text-[13px] text-slate-200 bg-white/[0.04] border border-white/10 px-3.5 py-2.5 rounded-xl font-medium">
             {contact.company}
           </div>
         </div>
 
         {/* Field: Role */}
         <div>
-          <label className="block text-[11px] font-semibold uppercase tracking-wider text-[#8A8782] mb-1.5">
+          <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
             Role
           </label>
-          <div className="text-[13px] text-[#2D2C2A] bg-[#FAF9F6] border border-[#E8E6E1] px-3.5 py-2.5 rounded-lg font-medium">
+          <div className="text-[13px] text-slate-200 bg-white/[0.04] border border-white/10 px-3.5 py-2.5 rounded-xl font-medium">
             {contact.role || "—"}
           </div>
         </div>
 
         {/* Field: Owner */}
         <div>
-          <label className="block text-[11px] font-semibold uppercase tracking-wider text-[#8A8782] mb-1.5">
+          <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
             Owner
           </label>
-          <div className="text-[13px] text-[#2D2C2A] bg-[#FAF9F6] border border-[#E8E6E1] px-3.5 py-2.5 rounded-lg font-medium flex items-center justify-between">
+          <div className="text-[13px] text-slate-200 bg-white/[0.04] border border-white/10 px-3.5 py-2.5 rounded-xl font-medium flex items-center justify-between">
             <span>{contact.owner || "—"}</span>
             {contact.owner && (
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#1D5685] bg-[#E8F0F8] px-2 py-0.5 rounded-full">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-cyan-300 bg-blue-950/80 px-2 py-0.5 rounded-full border border-cyan-800/80">
                 Internal
               </span>
             )}
@@ -106,7 +106,7 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
 
         {/* Field: Labels */}
         <div>
-          <label className="block text-[11px] font-semibold uppercase tracking-wider text-[#8A8782] mb-1.5">
+          <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
             Labels
           </label>
           <div className="flex flex-wrap gap-1.5 pt-0.5">
@@ -114,28 +114,28 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
               contact.labels.map((l) => (
                 <span
                   key={l}
-                  className="text-[11px] font-medium text-[#4A4844] bg-[#F4F3EF] border border-[#E5E3DE] rounded-md px-2.5 py-1"
+                  className="text-[11px] font-medium text-slate-300 bg-white/5 border border-white/10 rounded-md px-2.5 py-1"
                 >
                   {l}
                 </span>
               ))
             ) : (
-              <span className="text-[12px] text-[#A8A49D] italic">—</span>
+              <span className="text-[12px] text-slate-500 italic">—</span>
             )}
           </div>
         </div>
 
         {/* Field: Stage Dropdown */}
-        <div className="pt-2 border-t border-[#F0EFEA]">
+        <div className="pt-2 border-t border-white/10">
           <div className="flex items-center justify-between mb-1.5">
             <label
               htmlFor="contact-stage-select"
-              className="block text-[11px] font-semibold uppercase tracking-wider text-[#8A8782]"
+              className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400"
             >
               Stage
             </label>
             {isStageDirty && (
-              <span className="text-[10px] uppercase font-bold text-[#1D5685] bg-[#E8F0F8] px-2 py-0.5 rounded-full border border-[#C5DFF5]">
+              <span className="text-[10px] uppercase font-bold text-cyan-300 bg-blue-950/80 px-2 py-0.5 rounded-full border border-cyan-800/80">
                 Modified
               </span>
             )}
@@ -146,15 +146,15 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
               aria-label="Stage"
               value={draftStage}
               onChange={(e) => setDraftStage(e.target.value as Stage)}
-              className="w-full bg-white border border-[#D5D2CA] focus:border-[#3B6F9F] text-[13px] text-[#1E1E1E] font-medium px-3.5 py-2.5 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-[#3B6F9F]/20 transition-all cursor-pointer shadow-2xs"
+              className="w-full bg-[#0F182E] border border-white/15 focus:border-cyan-400 text-[13px] text-white font-medium px-3.5 py-2.5 rounded-xl appearance-none focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all cursor-pointer shadow-xs"
             >
               {STAGES.map((s) => (
-                <option key={s} value={s}>
+                <option key={s} value={s} className="bg-[#0B1325] text-white">
                   {s}
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#6E6B65]">
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -167,12 +167,12 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
           <div className="flex items-center justify-between mb-1.5">
             <label
               htmlFor="contact-notes-input"
-              className="block text-[11px] font-semibold uppercase tracking-wider text-[#8A8782]"
+              className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400"
             >
               Notes
             </label>
             {isNotesDirty && (
-              <span className="text-[10px] uppercase font-bold text-[#FF5733] bg-[#FFF0ED] px-2 py-0.5 rounded-full border border-[#FFD5CC]">
+              <span className="text-[10px] uppercase font-bold text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded-full border border-amber-800/80">
                 Unsaved changes
               </span>
             )}
@@ -184,17 +184,17 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
             value={draftNotes}
             onChange={(e) => setDraftNotes(e.target.value)}
             placeholder="Type notes regarding client discussion, follow-ups, or requirements..."
-            className="w-full bg-white border border-[#D5D2CA] text-[13px] text-[#1E1E1E] p-3 rounded-lg focus-ring outline-none resize-none transition-all placeholder:text-[#A8A49D] shadow-2xs leading-relaxed"
+            className="w-full bg-[#0F182E] border border-white/15 text-[13px] text-white p-3 rounded-xl focus-ring outline-none resize-none transition-all placeholder:text-slate-500 shadow-xs leading-relaxed"
           />
         </div>
       </div>
 
       {/* Panel Footer */}
-      <div className="p-4 border-t border-[#E8E6E1] bg-[#FAF9F6] flex items-center justify-end gap-3">
+      <div className="p-4 border-t border-white/10 bg-[#080D1A] flex items-center justify-end gap-3">
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 text-[13px] font-medium text-[#4A4844] bg-white border border-[#D5D2CA] rounded-lg hover:bg-[#F4F3EF] hover:border-[#B8B4AA] transition-colors duration-150 focus-ring cursor-pointer shadow-2xs"
+          className="px-4 py-2 text-[13px] font-medium text-slate-300 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:text-white transition-colors duration-150 focus-ring cursor-pointer"
         >
           Cancel
         </button>
@@ -202,10 +202,10 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
           type="button"
           disabled={!isDirty}
           onClick={handleSave}
-          className={`px-5 py-2 text-[13px] font-semibold rounded-lg shadow-sm transition-all duration-150 flex items-center gap-1.5 focus-ring ${
+          className={`px-5 py-2 text-[13px] font-semibold rounded-xl transition-all duration-150 flex items-center gap-1.5 focus-ring ${
             isDirty
-              ? "text-white bg-[#3B6F9F] hover:bg-[#315C84] cursor-pointer"
-              : "text-[#A8A49D] bg-[#F0EFEA] border border-[#E2E0D8] cursor-not-allowed"
+              ? "text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-[0_0_20px_rgba(0,120,255,0.45)] cursor-pointer"
+              : "text-slate-500 bg-white/5 border border-white/10 cursor-not-allowed"
           }`}
         >
           Save
