@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { Chip } from "../../../components/ui/Chip";
 import { EmptyValue } from "../../../components/ui/EmptyValue";
@@ -21,78 +22,86 @@ function FieldValue({ children }: { children: React.ReactNode }) {
 }
 
 export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
-  const handleStageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onSave?.(e.target.value as Stage, contact.notes ?? "");
-  };
+  const [draftStage, setDraftStage] = useState<Stage>(contact.stage);
+  const [draftNotes, setDraftNotes] = useState<string>(contact.notes ?? "");
+  const [isEntering, setIsEntering] = useState(true);
 
-  const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onSave?.(contact.stage, e.target.value);
-  };
+  const isDirty = draftStage !== contact.stage || draftNotes !== (contact.notes ?? "");
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsEntering(false), 0);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSave = () => {
-    onSave?.(contact.stage, contact.notes ?? "");
+    onSave?.(draftStage, draftNotes);
   };
 
   return (
     <aside
       role="dialog"
       aria-label={`Contact details: ${contact.name}`}
-      className="relative flex flex-col h-full w-full lg:w-[400px] lg:flex-shrink-0 rounded-lg border border-surface-line bg-surface-card"
+      className={`relative flex flex-col h-full w-full lg:w-[420px] lg:flex-shrink-0 rounded-lg border border-surface-line bg-surface-card shadow-lg transition-base ${
+        isEntering ? "opacity-0 translate-x-4" : "opacity-100 translate-x-0"
+      }`}
+      style={{ animation: isEntering ? "none" : undefined }}
     >
       <header className="flex items-center justify-between border-b border-surface-line px-4 py-3">
-        <div>
-          <h2 className="font-medium text-ink-900">{contact.name}</h2>
-          <p className="text-sm text-ink-500">{contact.company}</p>
+        <div className="min-w-0">
+          <h2 id="panel-heading" tabIndex={-1} className="font-medium text-ink-900 truncate outline-none">
+            {contact.name}
+          </h2>
+          <p className="text-sm text-ink-500 truncate">{contact.company}</p>
         </div>
         <Button.Icon
           type="button"
           aria-label="Close panel"
           onClick={onCancel}
-          className="text-ink-500 hover:text-ink-700"
+          className="text-ink-400 hover:text-ink-700 transition-fast"
         >
           <X className="h-4 w-4" aria-hidden="true" />
         </Button.Icon>
       </header>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        <dl className="space-y-3">
-          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
+        <dl className="space-y-4">
+          <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5">
             <FieldLabel>Email</FieldLabel>
             <FieldValue>{contact.email}</FieldValue>
           </div>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
+          <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5">
             <FieldLabel>Company</FieldLabel>
             <FieldValue>{contact.company}</FieldValue>
           </div>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
+          <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5">
             <FieldLabel>Role</FieldLabel>
             <FieldValue>
               {contact.role ? (
-                <span>{contact.role}</span>
+                <span className="text-ink-700">{contact.role}</span>
               ) : (
                 <EmptyValue />
               )}
             </FieldValue>
           </div>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
+          <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5">
             <FieldLabel>Owner</FieldLabel>
             <FieldValue>
               {contact.owner ? (
-                <span>{contact.owner}</span>
+                <span className="text-ink-700">{contact.owner}</span>
               ) : (
                 <EmptyValue />
               )}
             </FieldValue>
           </div>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
+          <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5">
             <FieldLabel>Labels</FieldLabel>
             <FieldValue>
               {contact.labels.length > 0 ? (
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-1.5">
                   {contact.labels.map((label) => (
                     <Chip key={label} label={label} />
                   ))}
@@ -103,13 +112,14 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
             </FieldValue>
           </div>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
+          <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5 pt-2 border-t border-surface-line/50">
             <FieldLabel>Stage</FieldLabel>
             <FieldValue>
               <select
-                defaultValue={contact.stage}
-                onChange={handleStageChange}
-                className="w-full rounded-md border border-surface-line bg-surface-card px-2 py-1 text-sm text-ink-700 focus-ring"
+                aria-label="Stage"
+                value={draftStage}
+                onChange={(e) => setDraftStage(e.target.value as Stage)}
+                className="w-full rounded-md border border-surface-line bg-surface-card px-2.5 py-1.5 text-sm text-ink-700 focus-ring transition-fast hover:border-ink-300"
               >
                 {STAGES.map((stage) => {
                   const { bg, text } = STAGE_STYLE[stage];
@@ -123,14 +133,15 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
             </FieldValue>
           </div>
 
-          <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-2">
-            <FieldLabel className="pt-2">Notes</FieldLabel>
+          <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2.5">
+            <FieldLabel className="pt-1">Notes</FieldLabel>
             <FieldValue>
               <textarea
-                defaultValue={contact.notes ?? ""}
-                onChange={handleNotesChange}
-                rows={4}
-                className="w-full rounded-md border border-surface-line bg-surface-card px-2 py-1.5 text-sm text-ink-700 placeholder:text-ink-500 focus-ring resize-none"
+                aria-label="Notes"
+                value={draftNotes}
+                onChange={(e) => setDraftNotes(e.target.value)}
+                rows={5}
+                className="w-full rounded-md border border-surface-line bg-surface-card px-2.5 py-1.5 text-sm text-ink-700 placeholder:text-ink-500 focus-ring resize-none transition-fast hover:border-ink-300"
                 placeholder="No notes yet"
               />
             </FieldValue>
@@ -149,7 +160,9 @@ export function DetailsPanel({ contact, onSave, onCancel }: DetailsPanelProps) {
         <Button
           variant="primary"
           size="sm"
+          disabled={!isDirty}
           onClick={handleSave}
+          className={isDirty ? "" : "opacity-50 cursor-not-allowed"}
         >
           Save
         </Button>

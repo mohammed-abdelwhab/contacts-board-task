@@ -89,7 +89,7 @@ export interface ContactBoardProps {
 
 export interface DetailsPanelProps {
   contact: Contact;
-  /** Optional callback wired to the Save button. */
+  /** Optional callback wired to the Save button. Receives the new stage and notes. */
   onSave?: (stage: Stage, notes: string) => void;
   /** Optional callback wired to the Cancel button. */
   onCancel?: () => void;

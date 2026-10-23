@@ -29,7 +29,7 @@ export function ContactRow({ contact, selected, onSelect }: ContactRowProps) {
 
   return (
     <tr
-      className={`transition-colors ${
+      className={`transition-base ${
         selected
           ? "bg-surface-selected"
           : "hover:bg-surface-hover"
@@ -37,39 +37,42 @@ export function ContactRow({ contact, selected, onSelect }: ContactRowProps) {
       style={{ backgroundColor: selected ? "var(--color-surface-selected)" : undefined }}
     >
       <th scope="row" className="relative lg:sticky lg:left-0 bg-inherit z-10">
-        <div className="flex items-center gap-2 px-3 py-2 min-w-[200px]">
+        <div className="flex items-center gap-3 px-3 py-2.5 min-w-[220px]">
           <Avatar name={contact.name} />
           <button
             type="button"
             onClick={handleClick}
             className="focus-ring text-left w-full"
             aria-current={selected ? "true" : undefined}
+            aria-label={`Open ${contact.name}`}
+            data-testid={contact.id}
+            data-contact-id={contact.id}
           >
             <span className="font-medium text-ink-900">{contact.name}</span>
           </button>
         </div>
       </th>
-      <td className="px-3 py-2 text-sm text-ink-700 whitespace-nowrap">
+      <td className="px-3 py-2.5 text-sm text-ink-700 whitespace-nowrap border-l border-surface-line/50">
         {contact.company}
       </td>
-      <td className="px-3 py-2 text-sm whitespace-nowrap">
+      <td className="px-3 py-2.5 text-sm whitespace-nowrap border-l border-surface-line/50">
         {contact.role ? (
           <span className="text-ink-700">{contact.role}</span>
         ) : (
           <EmptyValue />
         )}
       </td>
-      <td className="px-3 py-2 text-sm whitespace-nowrap">
+      <td className="px-3 py-2.5 text-sm whitespace-nowrap border-l border-surface-line/50">
         {contact.owner ? (
           <span className="text-ink-700">{contact.owner}</span>
         ) : (
           <EmptyValue />
         )}
       </td>
-      <td className="px-3 py-2 whitespace-nowrap">
+      <td className="px-3 py-2.5 whitespace-nowrap border-l border-surface-line/50">
         <LabelsCell labels={contact.labels} />
       </td>
-      <td className="px-3 py-2 whitespace-nowrap">
+      <td className="px-3 py-2.5 whitespace-nowrap border-l border-surface-line/50">
         <StageBadge stage={contact.stage} />
       </td>
     </tr>
