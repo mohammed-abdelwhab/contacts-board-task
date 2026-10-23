@@ -5,7 +5,7 @@ export function ViewSwitch({ mode, onModeChange }: ViewSwitchProps) {
     <div
       role="tablist"
       aria-label="View mode"
-      className="inline-flex p-0.5 bg-[#EFECE6] rounded-md border border-[#E3E0D8]"
+      className="inline-flex p-1 bg-[#EFECE6] rounded-lg border border-[#E3E0D8] shadow-xs select-none relative"
     >
       <button
         role="tab"
@@ -14,14 +14,16 @@ export function ViewSwitch({ mode, onModeChange }: ViewSwitchProps) {
         aria-controls="table-view"
         id="tab-table"
         onClick={() => onModeChange("table")}
-        className={`flex items-center gap-1.5 px-3 py-1 text-[13px] rounded transition-colors duration-150 focus-ring cursor-pointer ${
+        className={`relative z-10 flex items-center gap-2 px-3.5 py-1.5 text-[13px] rounded-md transition-all duration-200 cursor-pointer focus-ring ${
           mode === "table"
-            ? "font-medium text-[#3B6F9F] bg-white rounded shadow-sm border border-[#E3E0D8]"
-            : "text-[#6E6B65] hover:text-[#1E1E1E]"
+            ? "font-semibold text-[#1D5685] bg-white shadow-sm border border-[#E0DCD4]"
+            : "text-[#6E6B65] hover:text-[#1E1E1E] hover:bg-white/40 border border-transparent"
         }`}
       >
         <svg
-          className="w-3.5 h-3.5"
+          className={`w-3.5 h-3.5 transition-colors duration-200 ${
+            mode === "table" ? "text-[#1D5685]" : "text-[#8A8782]"
+          }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -35,7 +37,11 @@ export function ViewSwitch({ mode, onModeChange }: ViewSwitchProps) {
           />
         </svg>
         <span>Table</span>
+        {mode === "table" && (
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00D4FF] inline-block ml-0.5 animate-pulse" />
+        )}
       </button>
+
       <button
         role="tab"
         type="button"
@@ -43,14 +49,16 @@ export function ViewSwitch({ mode, onModeChange }: ViewSwitchProps) {
         aria-controls="board-view"
         id="tab-board"
         onClick={() => onModeChange("board")}
-        className={`flex items-center gap-1.5 px-3 py-1 text-[13px] rounded transition-colors duration-150 focus-ring cursor-pointer ${
+        className={`relative z-10 flex items-center gap-2 px-3.5 py-1.5 text-[13px] rounded-md transition-all duration-200 cursor-pointer focus-ring ${
           mode === "board"
-            ? "font-medium text-[#3B6F9F] bg-white rounded shadow-sm border border-[#E3E0D8]"
-            : "text-[#6E6B65] hover:text-[#1E1E1E]"
+            ? "font-semibold text-[#1D5685] bg-white shadow-sm border border-[#E0DCD4]"
+            : "text-[#6E6B65] hover:text-[#1E1E1E] hover:bg-white/40 border border-transparent"
         }`}
       >
         <svg
-          className="w-3.5 h-3.5"
+          className={`w-3.5 h-3.5 transition-colors duration-200 ${
+            mode === "board" ? "text-[#1D5685]" : "text-[#8A8782]"
+          }`}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -64,6 +72,9 @@ export function ViewSwitch({ mode, onModeChange }: ViewSwitchProps) {
           />
         </svg>
         <span>Board</span>
+        {mode === "board" && (
+          <span className="w-1.5 h-1.5 rounded-full bg-[#FF5733] inline-block ml-0.5 animate-pulse" />
+        )}
       </button>
     </div>
   );
